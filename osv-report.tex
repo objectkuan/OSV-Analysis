@@ -10,6 +10,7 @@
 \setbeamercolor{umbcboxes}{bg=violet!12,fg=black}
 
 
+
 \title{OSV Report}
 \subtitle{continuous updating}
 \author[Jiaquan He, ...]{Jiaquan He, ...}
@@ -17,7 +18,6 @@
 	THCSOS
 }
 \date{May 11, 2014}
-
 
 \begin{document}
 
@@ -74,7 +74,20 @@
 %----------- slide --------------------------------------------------%
 \begin{frame}
 	\frametitle{Memory Management}
-  
+	\framesubtitle{Page Structure}
+	
+	\center
+	\texttt{
+	|<----------- page size ---------->|
+	|------|-----------|---|-----------|
+	|Header|free\_object|...|free\_object|
+	|------|-----------|---|-----------|
+	}
+	
+\medskip
+
+	Header holds the information: CPU id, the owner mempool, allocated amount, and the free objects.
+	
 \end{frame}
 
 
@@ -109,7 +122,53 @@
 %----------- slide --------------------------------------------------%
 \begin{frame}
 	\frametitle{Synchronization}
+	\begin{itemize}
+		\item lfmutex
+		\item condvar
+		\item preempt-lock
+		\item rcu
+		\item rwlock
+		\item semphore
+		\item spinlock
+	\end{itemize}
+\end{frame}
 
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Synchronization}
+	\framesubtitle{lfmutex - Lock-free Mutex}
+	
+	\textbf{Algorithm} \\
+	Responsibility Handoff Protocol - Gidenstam A, Papatriantafilou M. LFthreads: A lock-free thread library[M]//Principles of Distributed Systems. Springer Berlin Heidelberg, 2007: 217-231.
+
+	\smallskip
+	
+	\textbf{Regular Functions}
+	\begin{itemize}
+		\item \texttt{void lock()}
+		\item \texttt{void unlock()}
+		\item \texttt{void try\_lock()}
+		\item \texttt{bool owned()}
+	\end{itemize}
+	
+	\smallskip
+	
+	\textbf{Wait Morphing Functions}
+	\begin{itemize}
+		\item \texttt{void send\_lock(wait\_record *wr);}
+		\item \texttt{bool send\_lock\_unless\_already\_waiting(wait\_record *wr);}
+		\item \texttt{void receive\_lock();}
+	\end{itemize}
+	
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Synchronization}
+	\framesubtitle{preempt-lock - Enable/Disble Preempt}
+
+		
+	
 \end{frame}
 
 
