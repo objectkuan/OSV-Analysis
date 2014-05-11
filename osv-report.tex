@@ -165,9 +165,40 @@
 %----------- slide --------------------------------------------------%
 \begin{frame}
 	\frametitle{Synchronization}
+	\framesubtitle{condvar - Conditional Variable}
+
+	\textbf{Theories}
+	Using the morphing functions to implement.
+	
+	\smallskip
+
+	\textbf{Functions}
+	\begin{itemize}
+		\item \texttt{int wait(mutex *user\_mutex, std::chrono::time\_point<Clock, Duration> time)}
+		\item \texttt{int wait(mutex *user\_mutex, std::chrono::duration<Rep, Period> duration);}
+		\item \texttt{int wait(mutex* user\_mutex, sched::timer *tmr = nullptr);}
+		\item \texttt{void wait\_until(mutex\& mtx, Pred pred);}
+		\item \texttt{void wake\_one();}
+		\item \texttt{void wake\_all();}
+	\end{itemize}
+	
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Synchronization}
 	\framesubtitle{preempt-lock - Enable/Disble Preempt}
 
-		
+	\textbf{Theories}
+	Using a preempt counter to control the preemption.
+	
+	\smallskip
+
+	\textbf{Functions}
+	\begin{itemize}
+		\item \texttt{void lock();}
+		\item \texttt{void unlock();}
+	\end{itemize}
 	
 \end{frame}
 
