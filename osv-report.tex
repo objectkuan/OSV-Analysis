@@ -33,6 +33,7 @@
 
 \begin{itemize}
 	\item About OSV
+	\item Making and Checking OSV
 	\item Memory Management
 	\item Symmetric Multiprocessing
 	\item Scheduling
@@ -69,8 +70,64 @@
 
 
 %--------------------------------------------------------------------%
+%                  Making and Checking OSV
+%--------------------------------------------------------------------%
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Making and Checking OSV}
+	\framesubtitle{Making OSV: make all}
+	
+	The command `make all` makes the OSV image file, which follows the steps:	
+	
+	\begin{enumerate}
+		\item Make \textbf{loader.img}, the bootloader, with scripts/imgedit.py. The loader.elf is contained in loader.img.
+		\item Create a 100MB image file \textbf{bare.raw}, and call \textbf{setpartition} in scripts/imgedit.py to write in the content of loader.img.
+		\item Convert bare.raw to a qcow2 format file named \textbf{bare.img}, and modify its file size. 
+		\item Call scripts/mkzfs.py, which then calls run.py to run OSV, and upload\_manifest.py to upload into OSV all the files listed in \textbf{build/release/bootfs.manifest}. This finishes the file system related jobs.
+	\end{enumerate}
+\end{frame}
+
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Making and Checking OSV}
+	\framesubtitle{Checking OSV: make check}
+	
+	The command `make check` runs the testing cases in OSV.
+	
+	All testing files are in the \textbf{tests} directory.
+	
+	\begin{enumerate}
+		\item Make the test cases into .o and .so files in build/release/tests/.
+		\item Run scripts/test.py, which scan the files in build/release/tests/. Each .so file is a test case. Blacklist is supported to exclude tests. And each case is finished by a calling of scripts/run.py.
+		\item The scripts in run.py just choose a certain hypervisor (xen or qemu), to run the image.
+		\item Run the tests with the command format `./scripts/run.py -s -e tests/tst-condvar.so`.				
+	\end{enumerate}
+\end{frame}
+
+%--------------------------------------------------------------------%
 %                      Memory Management
 %--------------------------------------------------------------------%
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Memory Management}
+	\framesubtitle{Structure}
+	
+	\textbf{MMU: }
+	\begin{itemize}
+		\item general: include/osv/mmu-defs.h, include/osv/mmu.h, core/mmu.cc
+		\item arch-related: arch/[arch]/arch-mmu.hh, arch/[arch]/mmu.cc
+	\end{itemize}
+	
+	\smallskip
+	
+	\textbf{Mempool: }
+	
+	Architecture-independent memory management interfaces.
+	
+\end{frame}
+
+
 %----------- slide --------------------------------------------------%
 \begin{frame}
 	\frametitle{Memory Management}
@@ -201,7 +258,7 @@
 	\end{itemize}
 	
 \end{frame}
-
+%percpu%
 
 %--------------------------------------------------------------------%
 %                         TCP/IP Protocol Stack
