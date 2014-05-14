@@ -113,7 +113,7 @@
 %----------- slide --------------------------------------------------%
 \begin{frame}
 	\frametitle{Memory Management}
-	\framesubtitle{Structure}
+	\framesubtitle{Memory Management Code Structure}
 	
 	\textbf{MMU: }
 	\begin{itemize}
@@ -133,22 +133,105 @@
 %----------- slide --------------------------------------------------%
 \begin{frame}
 	\frametitle{Memory Management}
-	\framesubtitle{Page Structure}
+	\framesubtitle{Virtual Memory}
 	
-	\center
-	\texttt{
-	|<----------- page size ---------->|
-	|------|-----------|---|-----------|
-	|Header|free\_object|...|free\_object|
-	|------|-----------|---|-----------|
-	}
+	\textbf{vma}
 	
-\medskip
+	The \textbf{Virtual Memory Address} class, marking a 	range of virtual address, with permission, flags and other information.
+	
+	\textbf{Types of vma: }
+	\begin{itemize}
+		\item anon\_vma
+		\item file\_vma
+		\item jvm\_balloon\_vma
+	\end{itemize}
+
+\end{frame}
+
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Memory Management}
+	\framesubtitle{Virtual Memory}
+	
+	\textbf{VM Interfaces: }
+	\begin{itemize}
+		\item void* map\_file(const void* addr, size\_t size, unsigned flags, unsigned perm,
+		\item fileref file, f\_offset offset);
+		\item void* map\_anon(const void* addr, size\_t size, unsigned flags, unsigned perm);
+		\item ulong map\_jvm(const void* addr, size\_t size, balloon *b);
+	\end{itemize}
+\end{frame}
+
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Memory Management}
+	\framesubtitle{More details}
+		
+\center
+TODO
+
+\end{frame}
+
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Memory Management}
+	\framesubtitle{Memory Pool}
+	
+	\textbf{Page}	
+	\begin{center}
+		\texttt{
+		|<----------- page size ---------->|
+		|------|-----------|---|-----------|
+		|Header|free\_object|...|free\_object|
+		|------|-----------|---|-----------|
+		}
+	\end{center}
+	
+	\smallskip
 
 	Header holds the information: CPU id, the owner mempool, allocated amount, and the free objects.
 	
+	\medskip
+
+	\textbf{Free Object}
+	
+	A simple link list item;
+	
 \end{frame}
 
+
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Memory Management}
+	\framesubtitle{Memory Pool}
+	
+	\textbf{\_free}	
+	
+	A set of global free pages.
+	
+	\begin{itemize}
+		\item The function \textbf{alloc} is called to allocate a free object. It gets a page from \textbf{\_free}, and then gets an object from it.
+		\item While allocating object, if \textbf{\_free} is empty, \textbf{add\_page} should be called to allocate a new page to append to it. If the page's last object is allocated, it'll be erased from \textbf{\_free}.
+		\item The function \textbf{free} is called to reclaim a free object, include two cases - \textbf{free\_same\_cpu} and \textbf{free\_different\_cpu}
+		
+	\end{itemize}		
+	
+\end{frame}
+
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Memory Management}
+	\framesubtitle{More details}
+		
+\center
+TODO
+
+\end{frame}
 
 
 %--------------------------------------------------------------------%
@@ -243,6 +326,7 @@
 	
 \end{frame}
 
+
 %----------- slide --------------------------------------------------%
 \begin{frame}
 	\frametitle{Synchronization}
@@ -260,7 +344,17 @@
 	\end{itemize}
 	
 \end{frame}
-%percpu%
+
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Synchronization}
+	\framesubtitle{rcu/rwlock/semphore/spinlock}
+
+	\center
+	TODO
+	
+\end{frame}
 
 %--------------------------------------------------------------------%
 %                         TCP/IP Protocol Stack
@@ -283,6 +377,7 @@
 %----------- slide --------------------------------------------------%
 \begin{frame}
 	\frametitle{Application Support}
+	
 	
 
 \end{frame}
